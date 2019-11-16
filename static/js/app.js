@@ -2,7 +2,6 @@
 // from data.js
 var tableData = data;
 var tbody = d3.select('tbody');
-var newbod = document.getElementById('newbody')
 
 // YOUR CODE HERE!
 // Append the data to the html table
@@ -15,48 +14,24 @@ data.forEach(function(table){
     })
 });
 
+
+
 // filter the table
-var button = d3.select('#button');
-button.on('click', function(){
-    
-    var inputElement = d3.select('#datetime')
+var insert = d3.select('#datetime')
+var button = d3.select('#filter-btn')
 
-    var inputValue = inputElement.property('value')
-    // console.log(inputValue)
-    // console.log(tableData)
+function filtered(){
+  var newtable = tableData.filter(table => table.datetime === insert.property('value'))
 
-    var filteredData = tableData.filter(tableData => tableData.datetime === inputValue);
+  newtable.forEach(function(newtable2){
+    var row = tbody.append('tr')
 
-    // console.log(filteredData);
-
-    tableHTML = "";
-    filteredData.forEach(row => {
-      tableHTML += `<tr><td>${row.datetime}</td><td>${row.city}</td><td>${row.state}</td><td>${row.country}</td><td>${row.shape}</td><td>${row.durationMinutes}</td><td>${row.comments}</td></tr>`;
+    Object.entries(newtable2).forEach(function([key,value]){
+      var cell = row.append('td')
+      cell.text(value)
     })
-    newbod.innerHTML = tableHTML;
-});
-
-
-function myFunction() {
-  // Declare variables
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("ufo-table");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }
-  }
+  })
 }
+
 
 
